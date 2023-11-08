@@ -2,6 +2,7 @@ from aiogram import Router
 from aiogram.filters import CommandStart
 from aiogram.types import Message
 
+from bot_menu.menu import create_kb_menu
 from data_bases.orm_basic import user_in_BD
 #from keyboards.user_kb import create_kb_menu
 from lexicon.lexicon_ru import LEXICON_PROFILE
@@ -18,8 +19,9 @@ async def process_start_command(message: Message):
         await message.answer(text='<b><i><u>ПРОФИЛЬ</u></i></b>\n'
                                   f'<b><u>Баланс: </u></b> {user["balanc"]}{LEXICON_PROFILE["price"]}\n'
                                   f'<b><u>Заполненность склада:</u></b> {user["full_warehouse"]/user["volume_warehouse"]*100} %\n'
-                                  f'<b><u>Рейтинг:</u></b> {user["rating"]}', reply_markup=create_kb_menu(user['name_deposit']))
+                                  f'<b><u>Рейтинг:</u></b> {user["rating"]}', reply_markup=await create_kb_menu(user['name_deposit']))
     else:
         await message.answer(text='Приветствую тебя в игре!\n'
                                   'Для начала давай придумаем название Вашего месторождения')
+
 
