@@ -7,8 +7,6 @@
     <list default="true" id="25144d89-559e-4bbf-9f4e-ba791090f5fe" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data_bases/orm_basic.py" beforeDir="false" afterPath="$PROJECT_DIR$/data_bases/orm_basic.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/handlers/deposit_handler.py" beforeDir="false" afterPath="$PROJECT_DIR$/handlers/deposit_handler.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/handlers/started_handler.py" beforeDir="false" afterPath="$PROJECT_DIR$/handlers/started_handler.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

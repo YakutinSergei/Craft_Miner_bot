@@ -123,12 +123,13 @@ async def bay_deposit_user(tg_id:int, deposit:str):
                                      host=env('host'))
 
 
-        check_dp = await conn.fetchrow(f'''SELECT d.id_deposit, d.price  
+        check_dp = await conn.fetchrow(f'''SELECT d.id_deposit, d.price 
                                         FROM deposits d 
                                         JOIN user_deposits ud ON d.id_deposit = ud.id_deposit 
                                         WHERE d.name = '{deposit}'
                                         AND ud.id_user = (SELECT id_user FROM users WHERE tg_id = {tg_id});''')
 
+        print(check_dp)
         if check_dp:
             #Если такая шахта у вас уже есть
             return 0
@@ -136,12 +137,15 @@ async def bay_deposit_user(tg_id:int, deposit:str):
             balance = await conn.fetchrow(f'''SELECT balance 
                                             FROM users 
                                             WHERE tg_id = {tg_id}''')
-
-            if check_dp['price'] <= balance['balance']:
+            #Узнаем цену шахты
+            price_dp = await conn.fetchrow(f'''SELECT id_deposit, price 
+                                                FROM deposits d 
+                                                WHERE d.name = '{deposit}';''')
+            if price_dp['price'] <= balance['balance']:
                 #Все ок, покупаете
                 # Добавялем шахту (Природный газ)
                 await conn.execute(f'''INSERT INTO user_deposits(id_user, id_deposit) 
-                                                                      VALUES((SELECT id_user FROM users WHERE tg_id = {tg_id}), $1)''', check_dp['id_deposit'])
+                                                                      VALUES((SELECT id_user FROM users WHERE tg_id = {tg_id}), $1)''', price_dp['id_deposit'])
 
                 #Вычитаем баланс
                 await conn.execute(f"UPDATE users "
