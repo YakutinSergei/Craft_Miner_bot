@@ -61,11 +61,11 @@ async def db_connect():
         #id_user - порядковый номер пользователя
         #id_deposit - порядковый номер месторождения
         #stok - склад
-        #chech - выбран склад
+        #check - выбран склад
         await conn.execute('''CREATE TABLE IF NOT EXISTS user_deposits(id_user INTEGER REFERENCES users(id_user) NOT NULL, 
                                                                         id_deposit INTEGER REFERENCES deposits(id_deposit) NOT NULL,
                                                                         stock INTEGER DEFAULT '0',
-                                                                        chech BOOLEAN DEFAULT 'false')''')
+                                                                        check BOOLEAN DEFAULT 'false')''')
 
 
     except Exception as _ex:

@@ -17,7 +17,7 @@ async def get_user(tg_id):
                                      host=env('host'))
 
 
-        user = await conn.fetchrow(f'''SELECT id, name_deposit, volume_stock, rating,balance 
+        user = await conn.fetchrow(f'''SELECT id_user, name_deposit, volume_stock, rating, balance 
                                         FROM users 
                                         WHERE tg_id = {tg_id}''')
 
@@ -43,10 +43,11 @@ async def add_user(tg_id: int, name: str):
                                       VALUES($1, $2)''',
                            tg_id, name)
 
-        await conn.execute(f'''INSERT INTO users(tg_id, name_deposit) 
-                                              VALUES($1, $2)''',
-                           tg_id, name)
-        return user
+        await conn.execute(f'''INSERT INTO user_workers(id_user, id_worker, id_deposit) 
+                                              VALUES(SELECT id_user FROM users WHERE tg_id = {tg_id}, 1, 1)''')
+
+        await conn.execute(f'''INSERT INTO user_deposits(id_user, id_deposit, check) 
+                                                      VALUES(SELECT id_user FROM users WHERE tg_id = {tg_id}, 1, 'True')''')
 
     except Exception as _ex:
         print('[INFO] Error ', _ex)
