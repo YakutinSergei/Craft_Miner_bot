@@ -25,7 +25,7 @@ async def db_connect():
                                                                 name_deposit TEXT NOT NULL,
                                                                 volume_stock INTEGER DEFAULT '100',
                                                                 rating INTEGER DEFAULT '0',
-                                                                balance INTEGER DEFAULT '0');''')
+                                                                balance INTEGER DEFAULT '0')''')
 
         #МЕСТОРОЖДЕНИЯ
         #id_deposit - порядкойвый номер месторождения
@@ -33,7 +33,7 @@ async def db_connect():
         #price - цена месторождения
         await conn.execute('''CREATE TABLE IF NOT EXISTS deposits(id_deposit SERIAL NOT NULL PRIMARY KEY, 
                                                                     name TEXT NOT NULL,
-                                                                    price INTEGER NOT NULL);''')
+                                                                    price INTEGER NOT NULL)''')
 
         #РАБОЧИЕ
         #id_worker - порядковый номер рабочего
@@ -65,7 +65,7 @@ async def db_connect():
         await conn.execute('''CREATE TABLE IF NOT EXISTS user_deposits(id_user INTEGER REFERENCES users(id_user) NOT NULL, 
                                                                         id_deposit INTEGER REFERENCES deposits(id_deposit) NOT NULL,
                                                                         stock INTEGER DEFAULT '0',
-                                                                        chech BOOLEAN DEFAULT 'false';''')
+                                                                        chech BOOLEAN DEFAULT 'false')''')
 
 
     except Exception as _ex:
