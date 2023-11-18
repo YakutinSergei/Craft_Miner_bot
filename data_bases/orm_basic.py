@@ -11,7 +11,7 @@ env.read_env()
 
 
 '''Проверка на наличие в базе'''
-async def get_user(tg_id):
+async def get_user(tg_id:int):
     try:
         conn = await asyncpg.connect(user=env('user'), password=env('password'), database=env('db_name'),
                                      host=env('host'))
@@ -21,7 +21,7 @@ async def get_user(tg_id):
                                         FROM users 
                                         WHERE tg_id = {tg_id}''')
 
-
+        print(user)
 
         #ищем все склады и на сколько они заполнены
         stock = await conn.fetchrow(f'''SELECT SUM(stock) 
