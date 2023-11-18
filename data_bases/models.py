@@ -66,6 +66,7 @@ async def db_connect():
                                                                         id_deposit INTEGER REFERENCES deposits(id_deposit) NOT NULL,
                                                                         stock INTEGER DEFAULT '0',
                                                                         check INTEGER DEFAULT '0')''')
+            
 
 
     except Exception as _ex:
