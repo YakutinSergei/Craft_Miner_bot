@@ -79,7 +79,7 @@ async def get_deposit_users(tg_id: int):
         conn = await asyncpg.connect(user=env('user'), password=env('password'), database=env('db_name'),
                                      host=env('host'))
 
-        deposits = await conn.fetch(f'''SELECT d.name, d.price 
+        deposits = await conn.fetch(f'''SELECT d.id_deposit, d.name, d.price 
                                         FROM deposits AS d
                                         JOIN user_deposits AS ud ON d.id_deposit = ud.id_deposit
                                         WHERE ud.id_user = (SELECT id_user FROM users WHERE tg_id = {tg_id});''')
@@ -95,5 +95,71 @@ async def get_deposit_users(tg_id: int):
             print('[INFO] PostgresSQL closed')
 
 
+'''Выбор шахты'''
+async def choice_deposits(id_deposit:int, tg_id:int):
+    try:
+        conn = await asyncpg.connect(user=env('user'), password=env('password'), database=env('db_name'),
+                                     host=env('host'))
+
+        await conn.execute(f'''UPDATE user_deposits
+                            SET check_status = CASE WHEN id_deposit = {id_deposit} THEN 1 ELSE 0 END
+                            WHERE id_user = (SELECT id_user FROM users WHERE tg_id = {tg_id};''')
 
 
+    except Exception as _ex:
+        print('[INFO] Error ', _ex)
+
+    finally:
+        if conn:
+            await conn.close()
+            print('[INFO] PostgresSQL closed')
+
+
+
+'''Покупка шахты'''
+async def bay_deposit_user(tg_id:int, deposit:str):
+    try:
+        conn = await asyncpg.connect(user=env('user'), password=env('password'), database=env('db_name'),
+                                     host=env('host'))
+
+
+        check_dp = await conn.fetchrow(f'''SELECT d.id_deposit, d.price  
+                                        FROM deposits d 
+                                        JOIN user_deposits ud ON d.id_deposit = ud.id_deposit 
+                                        WHERE d.name = {deposit}
+                                        AND ud.id_user = (SELECT id_user FROM users WHERE tg_id = {tg_id});''')
+
+        if check_dp:
+            #Если такая шахта у вас уже есть
+            return 0
+        else:
+            balance = await conn.fetchrow(f'''SELECT balance 
+                                            FROM users 
+                                            WHERE tg_id = {tg_id}''')
+
+            if check_dp['price'] <= balance['balance']:
+                #Все ок, покупаете
+                # Добавялем шахту (Природный газ)
+                await conn.execute(f'''INSERT INTO user_deposits(id_user, id_deposit) 
+                                                                      VALUES((SELECT id_user FROM users WHERE tg_id = {tg_id}), $1)''', check_dp['id_deposit'])
+                
+                #Вычитаем баланс
+                await conn.execute(f"UPDATE users "
+                                   f"SET balance = balance - {check_dp['price']}"
+                                   f"WHERE tg_id = {tg_id}")
+
+
+            else:
+                #Не хватает денег
+                return 1
+
+
+
+
+    except Exception as _ex:
+        print('[INFO] Error ', _ex)
+
+    finally:
+        if conn:
+            await conn.close()
+            print('[INFO] PostgresSQL closed')

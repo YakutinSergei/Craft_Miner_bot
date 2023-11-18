@@ -3,7 +3,7 @@ from aiogram.types import Message, CallbackQuery
 
 from bot import bot
 from bot_menu.menu import create_inline_kb, create_kb_menu
-from data_bases.orm_basic import get_deposit_users
+from data_bases.orm_basic import get_deposit_users, choice_deposits, get_user
 from lexicon.lexicon_ru import LEXICON_MINES, LEXICON_MENU
 
 router: Router = Router()
@@ -20,8 +20,10 @@ async def mines(message: Message):
                                                                                                     LEXICON_MINES['coal'],
                                                                                                     LEXICON_MINES['oil'],
                                                                                                     LEXICON_MINES['gold']))
+
+'''выбор шахты'''
 @router.callback_query(F.data.startswith('ch_dp'))
-async def choice_deposits(callback: CallbackQuery):
+async def process_choice_deposits(callback: CallbackQuery):
     #Получаем имя нашей шахты
     deposit = callback.data.split('_')[-1]
     #Получаем все имена наших шахт
@@ -34,6 +36,9 @@ async def choice_deposits(callback: CallbackQuery):
             await bot.delete_message(chat_id=callback.message.chat.id, message_id=callback.message.message_id)
             await callback.message.answer(text=f"Вы перешли в шахту: {deposit}",
                                           reply_markup=await create_kb_menu(deposit))
+            #Выбраной шахте ставит 1 остальным 0
+            await choice_deposits(deposit_users[i]['id_deposit'], callback.from_user.id)
+
             #Если такая шахты есть, ставим флаг на 1 и выходим из цикла
             check_dep = 1
             break
@@ -42,7 +47,21 @@ async def choice_deposits(callback: CallbackQuery):
     if not check_dep:
         await callback.message.edit_text(text=f"Шахта: {deposit} Вам пока недоступна\n"
                                               f"Для того что бы открыть нажмите кнопку ниже",
-                                         reply_markup=await create_inline_kb(1, 'bay_dp_', LEXICON_MINES['bay_deposits'],
+                                         reply_markup=await create_inline_kb(1, f'bay_dp_{deposit}_', LEXICON_MINES['bay_deposits'],
                                                                                                     LEXICON_MENU['back']))
 
+
+'''Покупка шахты'''
+@router.callback_query(F.data.startswith('bay_dp_'))
+async def process_bay_deposits(callback: CallbackQuery):
+    if callback.data.split('_')[-1] == LEXICON_MENU['back']:
+        await callback.message.edit_text(text="⬇️Выберите шахту⬇️", reply_markup=await create_inline_kb(1, 'ch_dp_', LEXICON_MINES['natural_gas'],
+                                                                                                    LEXICON_MINES['uranium'],
+                                                                                                    LEXICON_MINES['coal'],
+                                                                                                    LEXICON_MINES['oil'],
+                                                                                                    LEXICON_MINES['gold']))
+    else:
+        tg_id = callback.from_user.id
+        deposits = callback.data.split('_')[2]
+        bay_dp_user = await bay_deposit_user(tg_id, deposits)
 

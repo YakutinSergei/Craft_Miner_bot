@@ -21,7 +21,6 @@ async def process_start_command(message: Message, state: FSMContext):
     await bot.delete_message(chat_id=message.chat.id, message_id=message.message_id)
     #Проверяем есть ли в базе, если нет то записываем
     user = await get_user(message.from_user.id)
-    print(user[1]['sum'])
     if user:
         await message.answer(text="<b><i><u>ПРОФИЛЬ</u></i></b>\n"
                                   f"<b><u>Баланс: </u></b> {user[0]['balance']}{LEXICON_PROFILE['price']}\n"
