@@ -31,7 +31,7 @@ async def choice_deposits(callback: CallbackQuery):
     #Проверяем есть ли такая шахты у нас
     for i in range(len(deposit_users)):
         if deposit == deposit_users[i]['name']:
-            await bot.delete_message(chat_id=callback.chat_id, message_id=callback.message.message_id)
+            await bot.delete_message(chat_id=callback.message.chat.id, message_id=callback.message.message_id)
             await callback.message.answer(text=f"Вы перешли в шахту: {deposit}",
                                           reply_markup=await create_kb_menu(deposit))
             #Если такая шахты есть, ставим флаг на 1 и выходим из цикла
