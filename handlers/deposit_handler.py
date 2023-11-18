@@ -9,8 +9,14 @@ from lexicon.lexicon_ru import LEXICON_MINES, LEXICON_MENU
 router: Router = Router()
 
 
-@router.message((F.text == LEXICON_MINES['natural_gas']) | (F.text == LEXICON_MINES['uranium']))
-           
+@router.message((F.text == LEXICON_MINES['natural_gas']) |
+                (F.text == LEXICON_MINES['uranium']) |
+                (F.text == LEXICON_MINES['coal']) |
+                (F.text == LEXICON_MINES['oil']) |
+                (F.text == LEXICON_MINES['gold'])
+
+)
+
 async def mines(message: Message):
     await message.answer(text="⬇️Выберите шахту⬇️", reply_markup=await create_inline_kb(1, 'ch_dp_', LEXICON_MINES['natural_gas'],
                                                                                                     LEXICON_MINES['uranium'],
