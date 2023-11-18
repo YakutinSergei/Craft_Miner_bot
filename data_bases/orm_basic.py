@@ -79,7 +79,7 @@ async def get_deposit_users(tg_id: int):
         conn = await asyncpg.connect(user=env('user'), password=env('password'), database=env('db_name'),
                                      host=env('host'))
 
-        deposits = await conn.fetch(f'''SELECT d.name, d.price,
+        deposits = await conn.fetch(f'''SELECT d.name, d.price 
                                         FROM deposits AS d
                                         JOIN user_deposits AS ud ON d.id_deposit = ud.id_deposit
                                         WHERE ud.id_user = (SELECT id_user FROM users WHERE tg_id = {tg_id});''')
