@@ -21,17 +21,22 @@ async def get_user(tg_id:int):
                                         FROM users 
                                         WHERE tg_id = {tg_id}''')
 
-        print(user)
-
         #ищем все склады и на сколько они заполнены
         stock = await conn.fetchrow(f'''SELECT SUM(stock) 
                                     FROM user_deposits 
                                     WHERE id_user = (SELECT id_user FROM users WHERE tg_id = {tg_id})''')
 
 
+        deposits = await conn.fetchrow(f'''SELECT d.name 
+                                            FROM deposits d 
+                                            JOIN user_deposits ud ON d.id_deposit = ud.id_deposit 
+                                            WHERE ud.id_user = (SELECT id_user FROM users WHERE tg_id = {tg_id}) 
+                                            AND ud.check_status = 1''')
 
 
-        return user, stock
+
+
+        return user, stock, deposits
 
     except Exception as _ex:
         print('[INFO] Error ', _ex)
