@@ -103,7 +103,7 @@ async def choice_deposits(id_deposit:int, tg_id:int):
 
         await conn.execute(f'''UPDATE user_deposits
                             SET check_status = CASE WHEN id_deposit = {id_deposit} THEN 1 ELSE 0 END
-                            WHERE id_user = (SELECT id_user FROM users WHERE tg_id = {tg_id};''')
+                            WHERE id_user = (SELECT id_user FROM users WHERE tg_id = {tg_id});''')
 
 
     except Exception as _ex:
