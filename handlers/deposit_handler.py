@@ -3,7 +3,7 @@ from aiogram.types import Message, CallbackQuery
 
 from bot import bot
 from bot_menu.menu import create_inline_kb, create_kb_menu
-from data_bases.orm_basic import get_deposit_users, choice_deposits, get_user
+from data_bases.orm_basic import get_deposit_users, choice_deposits, get_user, bay_deposit_user
 from lexicon.lexicon_ru import LEXICON_MINES, LEXICON_MENU
 
 router: Router = Router()
@@ -64,4 +64,12 @@ async def process_bay_deposits(callback: CallbackQuery):
         tg_id = callback.from_user.id
         deposits = callback.data.split('_')[2]
         bay_dp_user = await bay_deposit_user(tg_id, deposits)
+        if bay_dp_user == 0:
+            await callback.message.answer(text="Эта шахта у вас уже есть", show_alert=True)
+        elif bay_dp_user == 1:
+            await callback.message.answer(text="Недостаточно средств", show_alert=True)
+        else:
+            await bot.delete_message(chat_id=callback.message.chat.id, message_id=callback.message.message_id)
+            await callback.message.answer(text="Поздравляю с покупкой", show_alert=True)
+
 

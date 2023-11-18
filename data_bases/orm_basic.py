@@ -142,11 +142,13 @@ async def bay_deposit_user(tg_id:int, deposit:str):
                 # Добавялем шахту (Природный газ)
                 await conn.execute(f'''INSERT INTO user_deposits(id_user, id_deposit) 
                                                                       VALUES((SELECT id_user FROM users WHERE tg_id = {tg_id}), $1)''', check_dp['id_deposit'])
-                
+
                 #Вычитаем баланс
                 await conn.execute(f"UPDATE users "
                                    f"SET balance = balance - {check_dp['price']}"
                                    f"WHERE tg_id = {tg_id}")
+
+                return 2
 
 
             else:
