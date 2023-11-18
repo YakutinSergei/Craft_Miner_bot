@@ -26,7 +26,7 @@ async def get_user(tg_id:int):
         #ищем все склады и на сколько они заполнены
         stock = await conn.fetchrow(f'''SELECT SUM(stock) 
                                     FROM user_deposits 
-                                    WHERE (SELECT id_user FROM users WHERE tg_id = {tg_id})''')
+                                    WHERE id_user = (SELECT id_user FROM users WHERE tg_id = {tg_id})''')
 
 
 
