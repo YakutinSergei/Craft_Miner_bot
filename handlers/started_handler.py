@@ -22,10 +22,10 @@ async def process_start_command(message: Message, state: FSMContext):
     #Проверяем есть ли в базе, если нет то записываем
     user = await get_user(message.from_user.id)
     if user:
-        await message.answer(text='<b><i><u>ПРОФИЛЬ</u></i></b>\n'
-                                  f'<b><u>Баланс: </u></b> {user["balanc"]}{LEXICON_PROFILE["price"]}\n'
-                                  f'<b><u>Заполненность склада:</u></b> {user["full_warehouse"]/user["volume_warehouse"]*100} %\n'
-                                  f'<b><u>Рейтинг:</u></b> {user["rating"]}', reply_markup=await create_kb_menu(user['name_deposit']))
+        await message.answer(text="<b><i><u>ПРОФИЛЬ</u></i></b>\n"
+                                  f"<b><u>Баланс: </u></b> {user[0]['balanc']}{LEXICON_PROFILE['price']}\n"
+                                  f"<b><u>Заполненность склада:</u></b> {user[1]['sum']/user['volume_warehouse']*100} %\n"
+                                  f"<b><u>Рейтинг:</u></b> {user[0]['rating']}", reply_markup=await create_kb_menu(user['name_deposit']))
     else:
         await message.answer(text='Приветствую тебя в игре!\n'
                                   'Для начала давай придумаем название Вашего месторождения')
