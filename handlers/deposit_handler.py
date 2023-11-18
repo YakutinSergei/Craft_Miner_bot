@@ -22,6 +22,6 @@ async def mines(message: Message):
                                                                                                     LEXICON_MINES['gold']))
 @router.callback_query(F.data.startswith('ch_dp'))
 async def choice_deposits(callback: CallbackQuery):
-    deposit = callback.data.startswith('_')[-1]
+    deposit = callback.data.split('_')[-1]
     deposit_users = await get_deposit_users(callback.from_user.id)
     print(deposit_users)
