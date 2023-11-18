@@ -8,7 +8,7 @@ from bot import bot, dp
 from environs import Env
 
 from data_bases import models
-from handlers import started_handler
+from handlers import started_handler, deposit_handler
 
 env = Env()
 env.read_env()
@@ -48,12 +48,9 @@ async def main():
     await models.db_connect()
 
     # Регистриуем роутеры в диспетчере
+    dp.include_router(deposit_handler.router)
     dp.include_router(started_handler.router)
-    # dp.include_router(admin_handlers.router)
-    # dp.include_router(no_filters_handlers.router)
-    # dp.include_router(no_group_handlers.router)
-
-
+    
     # Пропускаем накопившиеся апдейты и запускаем polling
     await bot.delete_webhook(drop_pending_updates=True)
     dp.startup.register(set_main_menu)
