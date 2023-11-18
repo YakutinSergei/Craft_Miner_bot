@@ -5,7 +5,7 @@ from aiogram.utils.keyboard import InlineKeyboardBuilder
 from lexicon.lexicon_ru import LEXICON_RU, LEXICON_MENU
 
 
-async def create_kb_menu(mines):
+async def create_kb_menu():
     btn_mines: KeyboardButton = KeyboardButton(text='ТЕСТ')
     btn_miners: KeyboardButton = KeyboardButton(text=LEXICON_MENU['miners'])
     btn_warehouse: KeyboardButton = KeyboardButton(text=LEXICON_MENU['warehouse'])
