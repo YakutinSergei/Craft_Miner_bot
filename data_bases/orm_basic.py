@@ -147,7 +147,7 @@ async def bay_deposit_user(tg_id:int, deposit:str):
 
                 #Вычитаем баланс
                 await conn.execute(f"UPDATE users "
-                                   f"SET balance = balance - {check_dp['price']}"
+                                   f"SET balance = balance - {price_dp['price']}"
                                    f"WHERE tg_id = {tg_id}")
 
                 return 2
