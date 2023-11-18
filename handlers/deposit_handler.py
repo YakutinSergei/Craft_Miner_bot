@@ -9,7 +9,7 @@ from lexicon.lexicon_ru import LEXICON_MINES, LEXICON_MENU
 router: Router = Router()
 
 
-@router.message(F.text in [LEXICON_MINES['natural_gas'],
+@router.message(F.text == [LEXICON_MINES['natural_gas'],
                            LEXICON_MINES['uranium'],
                            LEXICON_MINES['coal'],
                            LEXICON_MINES['oil'],
