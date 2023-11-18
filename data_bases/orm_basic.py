@@ -44,10 +44,10 @@ async def add_user(tg_id: int, name: str):
                            tg_id, name)
 
         await conn.execute(f'''INSERT INTO user_workers(id_user, id_worker, id_deposit) 
-                                              VALUES(SELECT id_user FROM users WHERE tg_id = {tg_id}, 1, 1)''')
+                                              VALUES((SELECT id_user FROM users WHERE tg_id = {tg_id}), 1, 1)''')
 
         await conn.execute(f'''INSERT INTO user_deposits(id_user, id_deposit, check) 
-                                                      VALUES(SELECT id_user FROM users WHERE tg_id = {tg_id}, 1, 'True')''')
+                                                      VALUES((SELECT id_user FROM users WHERE tg_id = {tg_id}), 1, 'True')''')
 
     except Exception as _ex:
         print('[INFO] Error ', _ex)
