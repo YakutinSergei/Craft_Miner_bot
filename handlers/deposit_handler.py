@@ -72,4 +72,5 @@ async def process_bay_deposits(callback: CallbackQuery):
             await bot.delete_message(chat_id=callback.message.chat.id, message_id=callback.message.message_id)
             await callback.message.answer(text="Поздравляю с покупкой", show_alert=True)
 
+    await callback.answer()
 

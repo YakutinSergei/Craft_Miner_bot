@@ -128,8 +128,6 @@ async def bay_deposit_user(tg_id:int, deposit:str):
                                         JOIN user_deposits ud ON d.id_deposit = ud.id_deposit 
                                         WHERE d.name = '{deposit}'
                                         AND ud.id_user = (SELECT id_user FROM users WHERE tg_id = {tg_id});''')
-
-        print(check_dp)
         if check_dp:
             #Если такая шахта у вас уже есть
             return 0
