@@ -9,11 +9,7 @@ from lexicon.lexicon_ru import LEXICON_MINES, LEXICON_MENU
 router: Router = Router()
 
 
-@router.message(F.text == [LEXICON_MINES['natural_gas'],
-                           LEXICON_MINES['uranium'],
-                           LEXICON_MINES['coal'],
-                           LEXICON_MINES['oil'],
-                           LEXICON_MINES['gold']])
+@router.message(F.text == LEXICON_MINES['natural_gas'], F.text == LEXICON_MINES['uranium'])
 async def mines(message: Message):
     await message.answer(text="⬇️Выберите шахту⬇️", reply_markup=await create_inline_kb(1, 'ch_dp_', LEXICON_MINES['natural_gas'],
                                                                                                     LEXICON_MINES['uranium'],
