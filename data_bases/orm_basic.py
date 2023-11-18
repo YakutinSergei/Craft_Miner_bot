@@ -46,7 +46,7 @@ async def add_user(tg_id: int, name: str):
         await conn.execute(f'''INSERT INTO user_workers(id_user, id_worker, id_deposit) 
                                               VALUES((SELECT id_user FROM users WHERE tg_id = {tg_id}), 1, 1)''')
 
-        await conn.execute(f'''INSERT INTO user_deposits(id_user, id_deposit, check) 
+        await conn.execute(f'''INSERT INTO user_deposits(id_user, id_deposit, check_status) 
                                                       VALUES((SELECT id_user FROM users WHERE tg_id = {tg_id}), 1, 1)''')
 
     except Exception as _ex:
