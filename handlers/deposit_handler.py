@@ -1,14 +1,10 @@
 from aiogram import Router, F
-from aiogram.filters import CommandStart, StateFilter
-from aiogram.fsm.context import FSMContext
-from aiogram.fsm.state import StatesGroup, State
-from aiogram.types import Message
+from aiogram.types import Message, CallbackQuery
 
 from bot import bot
-from bot_menu.menu import create_kb_menu, create_inline_kb
-from data_bases.orm_basic import add_user, get_user
-#from keyboards.user_kb import create_kb_menu
-from lexicon.lexicon_ru import LEXICON_PROFILE, LEXICON_MINES
+from bot_menu.menu import create_inline_kb
+from data_bases.orm_basic import get_deposit_users
+from lexicon.lexicon_ru import LEXICON_MINES
 
 router: Router = Router()
 
@@ -24,3 +20,8 @@ async def mines(message: Message):
                                                                                                     LEXICON_MINES['coal'],
                                                                                                     LEXICON_MINES['oil'],
                                                                                                     LEXICON_MINES['gold']))
+@router.callback_query(F.data.startswith('ch_dp'))
+async def choice_deposits(callback: CallbackQuery):
+    deposit = callback.data.startswith('_')[-1]
+    deposit_users = await get_deposit_users(callback.from_user.id)
+    print(deposit_users)

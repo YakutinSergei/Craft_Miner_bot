@@ -73,5 +73,27 @@ async def add_user(tg_id: int, name: str):
             await conn.close()
             print('[INFO] PostgresSQL closed')
 
+'''Получаем все шахты пользователя'''
+async def get_deposit_users(tg_id: int):
+    try:
+        conn = await asyncpg.connect(user=env('user'), password=env('password'), database=env('db_name'),
+                                     host=env('host'))
+
+        deposits = await conn.fetch(f'''SELECT d.name
+                                        FROM deposits AS d
+                                        JOIN user_deposits AS ud ON d.id_deposit = ud.id_deposit
+                                        WHERE ud.id_user = (SELECT id_user FROM users WHERE tg_id = {tg_id});''')
+
+        return deposits
+
+    except Exception as _ex:
+        print('[INFO] Error ', _ex)
+
+    finally:
+        if conn:
+            await conn.close()
+            print('[INFO] PostgresSQL closed')
+
+
 
 
