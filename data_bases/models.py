@@ -23,8 +23,8 @@ async def db_connect():
         await conn.execute('''CREATE TABLE IF NOT EXISTS users(id_user SERIAL NOT NULL PRIMARY KEY, 
                                                                 tg_id BIGSERIAL, 
                                                                 name_deposit TEXT NOT NULL,
-                                                                volume_stock INTEGER NOT NULL,
-                                                                rating INTEGER NOT NULL,
+                                                                volume_stock INTEGER DEFAULT '100',
+                                                                rating INTEGER DEFAULT '0',
                                                                 balance INTEGER DEFAULT '0');''')
 
         #МЕСТОРОЖДЕНИЯ
@@ -65,7 +65,7 @@ async def db_connect():
         await conn.execute('''CREATE TABLE IF NOT EXISTS user_deposits(id_user INTEGER REFERENCES users(id_user) NOT NULL, 
                                                                         id_deposit INTEGER REFERENCES deposits(id_deposit) NOT NULL,
                                                                         stock INTEGER DEFAULT '0',
-                                                                        chech BOOLEAN DEFAULT 'false');''')
+                                                                        chech BOOLEAN DEFAULT 'false';''')
 
 
     except Exception as _ex:
