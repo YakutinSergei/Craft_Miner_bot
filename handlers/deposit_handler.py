@@ -13,7 +13,6 @@ from lexicon.lexicon_ru import LEXICON_PROFILE, LEXICON_MINES
 router: Router = Router()
 
 
-@router.message(F.text == [LEXICON_MINES['natural_gas'], LEXICON_MINES['uranium'], LEXICON_MINES['coal'],
-                           LEXICON_MINES['oil'], LEXICON_MINES['gold']])
+@router.message()
 async def mines(message: Message):
     print('nnnnn')
