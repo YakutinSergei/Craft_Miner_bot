@@ -16,3 +16,10 @@ async def create_kb_menu(name: str):
                                                                             [btn_warehouse, btn_market], [btn_profile, btn_shop]],
                                                                     resize_keyboard=True)
     return menu_user
+
+
+
+'''Клавиатура для выбора шахты'''
+async def deposots_kb(tg_id: int):
+    #Получаем какие есть шахты
+    deposits_user = await get_deposits(tg_id)

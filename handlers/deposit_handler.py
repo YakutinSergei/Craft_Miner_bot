@@ -5,7 +5,7 @@ from aiogram.fsm.state import StatesGroup, State
 from aiogram.types import Message
 
 from bot import bot
-from bot_menu.menu import create_kb_menu
+from bot_menu.menu import create_kb_menu, deposots_kb
 from data_bases.orm_basic import add_user, get_user
 #from keyboards.user_kb import create_kb_menu
 from lexicon.lexicon_ru import LEXICON_PROFILE, LEXICON_MINES
@@ -19,4 +19,4 @@ router: Router = Router()
                 or F.text == LEXICON_MINES['oil']
                 or F.text == LEXICON_MINES['gold'])
 async def mines(message: Message):
-    await message.answer(text="Выберите шахту", reply_markup=await create_kb_menu('ПУСТО'))
+    await message.answer(text="⬇️Выберите шахту⬇️", reply_markup=await deposots_kb(message.from_user.id))
