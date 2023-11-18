@@ -43,7 +43,6 @@ async def choice_deposits(callback: CallbackQuery):
         await callback.message.edit_text(text=f"Шахта: {deposit} Вам пока недоступна\n"
                                               f"Для того что бы открыть нажмите кнопку ниже",
                                          reply_markup=await create_inline_kb(1, 'bay_dp_', LEXICON_MINES['bay_deposits'],
-                                                                                                    LEXICON_MINES['sell_deposits'],
                                                                                                     LEXICON_MENU['back']))
 
 
