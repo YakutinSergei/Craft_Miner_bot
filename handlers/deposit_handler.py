@@ -11,7 +11,7 @@ router: Router = Router()
 
 @router.message(F.text in [LEXICON_MINES['natural_gas'],
                            LEXICON_MINES['uranium'],
-                           LEXICON_MINES['coal'], 
+                           LEXICON_MINES['coal'],
                            LEXICON_MINES['oil'],
                            LEXICON_MINES['gold']])
 async def mines(message: Message):
