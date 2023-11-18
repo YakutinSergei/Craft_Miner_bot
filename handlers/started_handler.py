@@ -26,7 +26,7 @@ async def process_start_command(message: Message, state: FSMContext):
         await message.answer(text="<b><i><u>ПРОФИЛЬ</u></i></b>\n"
                                   f"<b><u>Баланс: </u></b> {user[0]['balance']}{LEXICON_PROFILE['price']}\n"
                                   f"<b><u>Заполненность склада:</u></b> {int(user[1]['sum'])/int(user[0]['volume_stock'])*100} %\n"
-                                  f"<b><u>Рейтинг:</u></b> {user[0]['rating']}", reply_markup=await create_kb_menu(user['name_deposit']))
+                                  f"<b><u>Рейтинг:</u></b> {user[0]['rating']}", reply_markup=await create_kb_menu())
     else:
         await message.answer(text='Приветствую тебя в игре!\n'
                                   'Для начала давай придумаем название Вашего месторождения')
