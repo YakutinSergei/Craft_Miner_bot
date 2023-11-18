@@ -19,4 +19,4 @@ router: Router = Router()
                 or F.text == LEXICON_MINES['oil']
                 or F.text == LEXICON_MINES['gold'])
 async def mines(message: Message):
-    await message.answer(text="", reply_markup=await create_kb_menu('ПУСТО'))
+    await message.answer(text="Выберите шахту", reply_markup=await create_kb_menu('ПУСТО'))
