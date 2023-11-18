@@ -50,7 +50,7 @@ async def main():
     # Регистриуем роутеры в диспетчере
     dp.include_router(deposit_handler.router)
     dp.include_router(started_handler.router)
-    
+
     # Пропускаем накопившиеся апдейты и запускаем polling
     await bot.delete_webhook(drop_pending_updates=True)
     dp.startup.register(set_main_menu)
