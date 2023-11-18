@@ -126,7 +126,7 @@ async def bay_deposit_user(tg_id:int, deposit:str):
         check_dp = await conn.fetchrow(f'''SELECT d.id_deposit, d.price  
                                         FROM deposits d 
                                         JOIN user_deposits ud ON d.id_deposit = ud.id_deposit 
-                                        WHERE d.name = {deposit}
+                                        WHERE d.name = '{deposit}'
                                         AND ud.id_user = (SELECT id_user FROM users WHERE tg_id = {tg_id});''')
 
         if check_dp:
