@@ -42,6 +42,7 @@ async def get_user(tg_id:int):
                                 JOIN users u ON u.id_user = uw.id_user
                                 WHERE uw.id_deposit = user_deposits.id_deposit AND user_deposits.id_user = (SELECT id_user FROM users WHERE tg_id = {tg_id})''')
 
+
         await conn.execute(f'''UPDATE users
                                 SET date = now()
                                 WHERE tg_id = {tg_id};''')
