@@ -26,7 +26,7 @@ async def get_user(tg_id:int):
                                     SET stock = ud.stock + subquery.increment
                                     FROM (
                                         SELECT 
-                                            ud.id_user_deposit,
+                                            ud.id_deposit,
                                             (w.efficiency * uw.sum * EXTRACT(EPOCH FROM (CURRENT_TIMESTAMP - u.date) / 60)) AS increment
                                         FROM 
                                             user_deposits ud
