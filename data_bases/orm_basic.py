@@ -19,10 +19,11 @@ async def get_user(tg_id:int):
         user = await conn.fetchrow(f'''SELECT id_user, name_deposit, volume_stock, rating, balance 
                                         FROM users 
                                         WHERE tg_id = {tg_id}''')
+
         if user:
             # Обновление склада
             await conn.execute(f'''UPDATE user_deposits
-                                    SET stock = GREATEST(stock + (w.efficiency * uw.sum * EXTRACT(EPOCH FROM (CURRENT_TIMESTAMP - u.date) / 60)), 0, user.volume_stock)
+                                    SET stock = GREATEST(stock + (w.efficiency * uw.sum * EXTRACT(EPOCH FROM (CURRENT_TIMESTAMP - u.date) / 60)), 0, u.volume_stock)
                                     FROM user_workers uw
                                     JOIN workers w ON uw.id_worker = w.id_worker
                                     JOIN users u ON u.id_user = uw.id_user
@@ -32,7 +33,7 @@ async def get_user(tg_id:int):
             await conn.execute(f'''UPDATE users
                                                 SET date = now()
                                                 WHERE tg_id = {tg_id};''')
-            
+
 
             #ищем все склады и на сколько они заполнены
             stock = await conn.fetchrow(f'''SELECT SUM(stock) 
