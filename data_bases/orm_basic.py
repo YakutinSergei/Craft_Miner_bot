@@ -37,7 +37,7 @@ async def get_user(tg_id:int):
                                             ud.id_user = (SELECT id_user FROM users WHERE tg_id = {tg_id})
                                     ) AS subquery
                                     WHERE
-                                        ud.id_user_deposit = subquery.id_user_deposit
+                                        ud.id_deposit = subquery.id_deposit
                                         AND (SELECT COALESCE(SUM(stock), 0) + subquery.increment FROM user_deposits WHERE id_user = (SELECT id_user FROM users WHERE tg_id = {tg_id})) <= (SELECT volume_stock FROM users WHERE tg_id = {tg_id});''')
 
             await conn.execute(f'''UPDATE users
