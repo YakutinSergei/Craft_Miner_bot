@@ -25,6 +25,7 @@ async def db_connect():
                                                                 name_deposit TEXT NOT NULL,
                                                                 volume_stock INTEGER DEFAULT '100',
                                                                 rating INTEGER DEFAULT '0',
+                                                                date TIMESTAMP DEFAULT 'now()'
                                                                 balance INTEGER DEFAULT '0')''')
 
         #МЕСТОРОЖДЕНИЯ

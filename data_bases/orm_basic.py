@@ -9,7 +9,6 @@ env = Env()
 env.read_env()
 
 
-
 '''Проверка на наличие в базе'''
 async def get_user(tg_id:int):
     try:
