@@ -26,11 +26,25 @@ async def get_user(tg_id:int):
                                     WHERE id_user = (SELECT id_user FROM users WHERE tg_id = {tg_id})''')
 
 
+        #Имя шахты в которой сейчас
         deposits = await conn.fetchrow(f'''SELECT d.name 
                                             FROM deposits d 
                                             JOIN user_deposits ud ON d.id_deposit = ud.id_deposit 
                                             WHERE ud.id_user = (SELECT id_user FROM users WHERE tg_id = {tg_id}) 
                                             AND ud.check_status = 1''')
+
+
+        #Обновление склада
+        await conn.execute(f'''UPDATE user_deposits
+                                SET stock = stock + ((uw.lvl * w.efficiency * uw.sum) * EXTRACT(EPOCH FROM (CURRENT_TIMESTAMP - u.date))::int)
+                                FROM user_workers uw
+                                JOIN workers w ON uw.id_worker = w.id_worker
+                                JOIN users u ON u.id_user = uw.id_user
+                                WHERE uw.id_deposit = user_deposits.id_deposit AND user_deposits.id_user = (SELECT id_user FROM users WHERE tg_id = {tg_id})''')
+
+        await conn.execute(f'''UPDATE users
+                                SET date = now()
+                                WHERE tg_id = {tg_id};''')
 
 
 

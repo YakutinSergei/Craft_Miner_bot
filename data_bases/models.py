@@ -70,6 +70,7 @@ async def db_connect():
 
 
 
+
     except Exception as _ex:
         print('[INFO] Error ', _ex)
 
