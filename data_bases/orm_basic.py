@@ -63,7 +63,10 @@ async def get_user(tg_id:int):
 
 
 
-        return user, stock, deposits
+            return user, stock, deposits
+
+        else:
+            return 0
 
     except Exception as _ex:
         print('[INFO] Error ', _ex)
