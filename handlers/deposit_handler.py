@@ -13,9 +13,7 @@ router: Router = Router()
                 (F.text == LEXICON_MINES['uranium']) |
                 (F.text == LEXICON_MINES['coal']) |
                 (F.text == LEXICON_MINES['oil']) |
-                (F.text == LEXICON_MINES['gold'])
-
-)
+                (F.text == LEXICON_MINES['gold']))
 
 async def mines(message: Message):
     await bot.delete_message(chat_id=message.chat.id, message_id=message.message_id)
