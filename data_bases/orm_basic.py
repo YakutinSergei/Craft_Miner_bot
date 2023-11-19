@@ -36,7 +36,7 @@ async def get_user(tg_id:int):
 
         #Обновление склада
         await conn.execute(f'''UPDATE user_deposits
-                                SET stock = stock + ((w.efficiency * uw.sum) * EXTRACT(EPOCH FROM (CURRENT_TIMESTAMP - u.date)/60)::int)
+                                SET stock = stock + ((w.efficiency * uw.sum) * EXTRACT(EPOCH FROM (CURRENT_TIMESTAMP - u.date)/60))
                                 FROM user_workers uw
                                 JOIN workers w ON uw.id_worker = w.id_worker
                                 JOIN users u ON u.id_user = uw.id_user
