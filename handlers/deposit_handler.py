@@ -32,6 +32,7 @@ async def process_choice_deposits(callback: CallbackQuery):
     deposit_users = await get_deposit_users(callback.from_user.id)
     #Ставить флажок на наличие шахты
     check_dep = 0
+
     #Проверяем есть ли такая шахты у нас
     for i in range(len(deposit_users)):
         if deposit == deposit_users[i]['name']:
