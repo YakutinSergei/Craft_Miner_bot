@@ -18,13 +18,14 @@ router: Router = Router()
 )
 
 async def mines(message: Message):
+    await bot.delete_message(chat_id=message.chat.id, message_id=message.message_id)
     await message.answer(text="⬇️Выберите шахту⬇️", reply_markup=await create_inline_kb(1, 'ch_dp_', LEXICON_MINES['natural_gas'],
                                                                                                     LEXICON_MINES['uranium'],
                                                                                                     LEXICON_MINES['coal'],
                                                                                                     LEXICON_MINES['oil'],
                                                                                                     LEXICON_MINES['gold']))
 
-'''выбор шахты'''
+'''Выбор шахты'''
 @router.callback_query(F.data.startswith('ch_dp'))
 async def process_choice_deposits(callback: CallbackQuery):
     #Получаем имя нашей шахты

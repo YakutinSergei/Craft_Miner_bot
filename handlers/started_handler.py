@@ -36,10 +36,8 @@ async def process_start_command(message: Message, state: FSMContext):
 async def user_name_add(message: Message, state: FSMContext):
     tg_id = message.from_user.id
     name = message.text
-    user = await add_user(tg_id, name)
-    # await message.answer(text='<b><i><u>ПРОФИЛЬ</u></i></b>\n'
-    #                           f'<b><u>Баланс: </u></b> {user["balanc"]}{LEXICON_PROFILE["price"]}\n'
-    #                           f'<b><u>Заполненность склада:</u></b> {user["full_warehouse"] / user["volume_warehouse"] * 100} %\n'
-    #                           f'<b><u>Рейтинг:</u></b> {user["rating"]}',
-    #                      reply_markup=await create_kb_menu(user['name_deposit']))
+    #Добавляем нового пользователя
+    await add_user(tg_id, name)
+    #Вызываем функцию при команде /start
+    await process_start_command(message)
     await state.clear()
