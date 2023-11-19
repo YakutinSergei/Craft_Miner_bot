@@ -32,6 +32,7 @@ async def get_user(tg_id:int):
             await conn.execute(f'''UPDATE users
                                                 SET date = now()
                                                 WHERE tg_id = {tg_id};''')
+            
 
             #ищем все склады и на сколько они заполнены
             stock = await conn.fetchrow(f'''SELECT SUM(stock) 
