@@ -12,6 +12,10 @@ router: Router = Router()
 async def stock_btn(message: Message):
     stock_user = await get_user_stock(message.from_user.id)
     text = ''
+    sum_stock = 0
     for i in range(len(stock_user)):
         text += f"{stock_user[i]['name']} - {round(stock_user[i]['stock'])}\n"
-    await message.answer(text=text)
+        sum_stock += round(stock_user[i]['stock'])
+    await message.answer(text=f"<b><i><u>📦СКЛАД📦</u></i></b>\n"
+                              f"{text}\n"
+                              f"Заполненность склада: {round(stock_user[i]['stock'])/stock_user[i]['volume_stock']*100} %")
