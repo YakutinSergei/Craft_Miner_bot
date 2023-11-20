@@ -199,6 +199,28 @@ async def get_user_stock(tg_id:int):
     try:
         conn = await asyncpg.connect(user=env('user'), password=env('password'), database=env('db_name'),
                                      host=env('host'))
+        # Обновление склада
+        await conn.execute(f'''UPDATE user_deposits AS ud
+                                            SET stock = ud.stock + subquery.increment
+                                            FROM (
+                                                SELECT 
+                                                    ud.id_deposit,
+                                                    (w.efficiency * uw.sum * EXTRACT(EPOCH FROM (CURRENT_TIMESTAMP - u.date) / 60)) AS increment
+                                                FROM 
+                                                    user_deposits ud
+                                                INNER JOIN user_workers uw ON uw.id_deposit = ud.id_deposit
+                                                INNER JOIN workers w ON w.id_worker = uw.id_worker
+                                                INNER JOIN users u ON u.id_user = ud.id_user
+                                                WHERE 
+                                                    ud.id_user = (SELECT id_user FROM users WHERE tg_id = {tg_id})
+                                            ) AS subquery
+                                            WHERE
+                                                ud.id_deposit = subquery.id_deposit
+                                                AND (SELECT COALESCE(SUM(stock), 0) + subquery.increment FROM user_deposits WHERE id_user = (SELECT id_user FROM users WHERE tg_id = {tg_id})) <= (SELECT volume_stock FROM users WHERE tg_id = {tg_id});''')
+
+        await conn.execute(f'''UPDATE users
+                                                        SET date = now()
+                                                        WHERE tg_id = {tg_id};''')
 
         stock_user = await conn.fetch(f'''SELECT d.name, ud.stock, u.volume_stock 
                                             FROM deposits d
@@ -222,11 +244,33 @@ async def up_stock_user(tg_id):
         conn = await asyncpg.connect(user=env('user'), password=env('password'), database=env('db_name'),
                                      host=env('host'))
 
+        # Обновление склада
+        await conn.execute(f'''UPDATE user_deposits AS ud
+                                            SET stock = ud.stock + subquery.increment
+                                            FROM (
+                                                SELECT 
+                                                    ud.id_deposit,
+                                                    (w.efficiency * uw.sum * EXTRACT(EPOCH FROM (CURRENT_TIMESTAMP - u.date) / 60)) AS increment
+                                                FROM 
+                                                    user_deposits ud
+                                                INNER JOIN user_workers uw ON uw.id_deposit = ud.id_deposit
+                                                INNER JOIN workers w ON w.id_worker = uw.id_worker
+                                                INNER JOIN users u ON u.id_user = ud.id_user
+                                                WHERE 
+                                                    ud.id_user = (SELECT id_user FROM users WHERE tg_id = {tg_id})
+                                            ) AS subquery
+                                            WHERE
+                                                ud.id_deposit = subquery.id_deposit
+                                                AND (SELECT COALESCE(SUM(stock), 0) + subquery.increment FROM user_deposits WHERE id_user = (SELECT id_user FROM users WHERE tg_id = {tg_id})) <= (SELECT volume_stock FROM users WHERE tg_id = {tg_id});''')
+
+        await conn.execute(f'''UPDATE users
+                                                        SET date = now()
+                                                        WHERE tg_id = {tg_id};''')
+
         #Получаем баланс и размер склада
         balance = await conn.fetchrow(f'SELECT balance, volume_stock '
                                       f'FROM users '
                                       f'WHERE tg_id = {tg_id}')
-        print(balance)
         price_stock = (balance['volume_stock']+1000)/10
 
         #Проверяем хватает ли денег на улучшение
@@ -282,6 +326,25 @@ async def get_user_miner(tg_id):
                                                 WHERE u.tg_id = {tg_id} AND ud.check_status = 1;''')
 
         return worker_user, name_deposits
+    except Exception as _ex:
+        print('[INFO] Error ', _ex)
+
+    finally:
+        if conn:
+            await conn.close()
+            print('[INFO] PostgresSQL closed')
+
+
+'''Цена шахты'''
+async def get_price_deposit(name:str):
+    try:
+        conn = await asyncpg.connect(user=env('user'), password=env('password'), database=env('db_name'),
+                                     host=env('host'))
+        
+        price = await conn.fetchrow(f'''SELECT price
+                                        FROM deposits 
+                                        WHERE name = {name}''')
+        return price
     except Exception as _ex:
         print('[INFO] Error ', _ex)
 

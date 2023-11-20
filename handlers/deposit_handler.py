@@ -3,7 +3,7 @@ from aiogram.types import Message, CallbackQuery
 
 from bot import bot
 from bot_menu.menu import create_inline_kb, create_kb_menu
-from data_bases.orm_basic import get_deposit_users, choice_deposits, get_user, bay_deposit_user
+from data_bases.orm_basic import get_deposit_users, choice_deposits, get_user, bay_deposit_user, get_price_deposit
 from lexicon.lexicon_ru import LEXICON_MINES, LEXICON_MENU
 
 router: Router = Router()
@@ -45,12 +45,15 @@ async def process_choice_deposits(callback: CallbackQuery):
             #Если такая шахты есть, ставим флаг на 1 и выходим из цикла
             check_dep = 1
             break
+    #Цена шахты
+    price_deposit = await get_price_deposit(deposit)
+
 
     #Проверяем если у нас такой шахты нет
     if not check_dep:
-        await callback.message.edit_text(text=f"Шахта: {deposit} Вам пока недоступна\n"
+        await callback.message.edit_text(text=f"❌Шахта: {deposit} Вам пока недоступна❌\n"
                                               f"Для того что бы открыть нажмите кнопку ниже",
-                                         reply_markup=await create_inline_kb(1, f'bay_dp_{deposit}_', LEXICON_MINES['bay_deposits'],
+                                         reply_markup=await create_inline_kb(1, f'bay_dp_{deposit}_', f"{LEXICON_MINES['bay_deposits']} за {price_deposit['price']}",
                                                                                                     LEXICON_MENU['back']))
 
 
