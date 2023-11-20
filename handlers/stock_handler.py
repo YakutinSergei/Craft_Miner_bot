@@ -16,6 +16,9 @@ async def stock_btn(message: Message):
     for i in range(len(stock_user)):
         text += f"{stock_user[i]['name']} - {round(stock_user[i]['stock'])}\n"
         sum_stock += round(stock_user[i]['stock'])
-    await message.answer(text=f"<b><i><u>📦СКЛАД📦</u></i></b>\n"
+
+    print(sum_stock)
+    print(stock_user[0]['volume_stock'])
+    await message.answer(text=f"<b><i><u>📦СКЛАД📦</u></i></b>\n\n"
                               f"{text}\n"
-                              f"Заполненность склада: {round(stock_user[i]['stock'])/stock_user[i]['volume_stock']*100} %")
+                              f"Заполненность склада: {round(sum_stock/stock_user[0]['volume_stock']*100)} %")
