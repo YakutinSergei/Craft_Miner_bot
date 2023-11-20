@@ -1,6 +1,7 @@
 from aiogram import Router, F
 from aiogram.types import Message
 
+from data_bases.orm_basic import get_user_miner
 from lexicon.lexicon_ru import LEXICON_MENU
 
 router: Router = Router()
