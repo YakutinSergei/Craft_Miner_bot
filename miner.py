@@ -8,7 +8,7 @@ from bot import bot, dp
 from environs import Env
 
 from data_bases import models
-from handlers import started_handler, deposit_handler, stock_handler
+from handlers import started_handler, deposit_handler, stock_handler, worker_handler
 
 env = Env()
 env.read_env()
@@ -50,6 +50,7 @@ async def main():
     # Регистриуем роутеры в диспетчере
     dp.include_router(deposit_handler.router)
     dp.include_router(stock_handler.router)
+    dp.include_router(worker_handler.router)
     dp.include_router(started_handler.router)
 
     # Пропускаем накопившиеся апдейты и запускаем polling
