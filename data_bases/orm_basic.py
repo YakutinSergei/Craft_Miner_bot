@@ -226,7 +226,9 @@ async def up_stock_user(tg_id):
         balance = await conn.fetchrow(f'SELECT balance, volume_stock'
                                       f'FROM users '
                                       f'WHERE tg_id = {tg_id}')
+
         price_stock = (balance['volume_stock']+1000)/10
+
         #Проверяем хватает ли денег на улучшение
         if balance['balance'] > price_stock: #Если хватает
             await conn.execute(f"UPDATE users "
