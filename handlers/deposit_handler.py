@@ -24,7 +24,8 @@ async def mines(message: Message):
     for i in range(len(deposit_user)):
         deposits.append(f"{deposit_user[i]['deposit_name']} - {deposit_user[i]['total_efficiency']}/час")
 
-    await message.answer(text="⬇️Выберите шахту⬇️", reply_markup=await create_inline_kb_deposit(1, 'ch_dp_', *deposit_user))
+
+    await message.answer(text="⬇️Выберите шахту⬇️", reply_markup=await create_inline_kb_deposit(1, 'ch_dp_', *deposits))
 
 '''Выбор шахты'''
 @router.callback_query(F.data.startswith('ch_dp'))
