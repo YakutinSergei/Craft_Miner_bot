@@ -20,12 +20,11 @@ async def mines(message: Message):
     await bot.delete_message(chat_id=message.chat.id, message_id=message.message_id)
     #Получаем шахты пользователя
     deposit_user = await get_deposit_user(message.from_user.id)
-    print(deposit_user)
-    await message.answer(text="⬇️Выберите шахту⬇️", reply_markup=await create_inline_kb(1, 'ch_dp_', LEXICON_MINES['natural_gas'],
-                                                                                                    LEXICON_MINES['uranium'],
-                                                                                                    LEXICON_MINES['coal'],
-                                                                                                    LEXICON_MINES['oil'],
-                                                                                                    LEXICON_MINES['gold']))
+    deposits = []
+    for i in range(len(deposit_user)):
+        deposits.append(f"{deposit_user[i]['deposit_name']} - {deposit_user[i]['total_efficiency']}/час")
+
+    await message.answer(text="⬇️Выберите шахту⬇️", reply_markup=await create_inline_kb(1, 'ch_dp_', *deposit_user))
 
 '''Выбор шахты'''
 @router.callback_query(F.data.startswith('ch_dp'))
