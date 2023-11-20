@@ -275,7 +275,7 @@ async def get_user_miner(tg_id):
                                             ON w.id_worker = uw.id_worker
                                             ORDER BY w.id_worker;''')
 
-        name_deposits = await conn.fetchrow(f'''SELECT d.name 
+        name_deposits = await conn.fetchrow(f'''SELECT d.name, d.id_deposit
                                                 FROM deposits d
                                                 JOIN user_deposits ud ON d.id_deposit = ud.id_deposit
                                                 JOIN users u ON u.id_user = ud.id_user
