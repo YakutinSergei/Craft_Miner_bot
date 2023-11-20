@@ -223,7 +223,7 @@ async def up_stock_user(tg_id):
                                      host=env('host'))
 
         #Получаем баланс и размер склада
-        balance = await conn.fetchrow(f'SELECT balance, volume_stock'
+        balance = await conn.fetchrow(f'SELECT balance, volume_stock '
                                       f'FROM users '
                                       f'WHERE tg_id = {tg_id}')
         print(balance)
