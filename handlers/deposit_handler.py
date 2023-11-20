@@ -2,7 +2,7 @@ from aiogram import Router, F
 from aiogram.types import Message, CallbackQuery
 
 from bot import bot
-from bot_menu.menu import create_inline_kb, create_kb_menu
+from bot_menu.menu import create_inline_kb, create_kb_menu, create_inline_kb_deposit
 from data_bases.orm_basic import get_deposit_users, choice_deposits, get_user, bay_deposit_user, get_price_deposit, \
     get_deposit_user
 from lexicon.lexicon_ru import LEXICON_MINES, LEXICON_MENU
@@ -24,7 +24,7 @@ async def mines(message: Message):
     for i in range(len(deposit_user)):
         deposits.append(f"{deposit_user[i]['deposit_name']} - {deposit_user[i]['total_efficiency']}/час")
 
-    await message.answer(text="⬇️Выберите шахту⬇️", reply_markup=await create_inline_kb(1, 'ch_dp_', *deposit_user))
+    await message.answer(text="⬇️Выберите шахту⬇️", reply_markup=await create_inline_kb_deposit(1, 'ch_dp_', *deposit_user))
 
 '''Выбор шахты'''
 @router.callback_query(F.data.startswith('ch_dp'))
