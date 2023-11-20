@@ -32,8 +32,21 @@ async def process_stock_up_user(callback: CallbackQuery):
     check_stock = await up_stock_user(callback.from_user.id)
     #Проверяем получилось ли улучшить
     if check_stock:
-        await stock_btn(callback.message)
+        # Получаем все шахты пользователя
+        stock_user = await get_user_stock(callback.from_user.id)
+        text = ''
+        sum_stock = 0
+        # Формурием текст для вывода
+        for i in range(len(stock_user)):
+            text += f"{stock_user[i]['name']} - {round(stock_user[i]['stock'])}\n"
+            sum_stock += round(stock_user[i]['stock'])
+        # Выводим сообщение
+        await callback.message.answer(text=f"<b><i><u>📦СКЛАД📦</u></i></b>\n\n"
+                                  f"{text}\n"
+                                  f"Заполненность склада: {round(sum_stock / stock_user[0]['volume_stock'] * 100)} %",
+                             reply_markup=await create_inline_kb(1, 'stock_up_', LEXICON_MENU['stock_up']))
         await callback.answer(text='✅Склад улучшен', show_alert=True)
+        
     else:
         await callback.answer(text='❌Недостаточно средств', show_alert=True)
 
