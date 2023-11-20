@@ -1,4 +1,4 @@
-from aiogram import Router
+from aiogram import Router, F
 from aiogram.filters import CommandStart, StateFilter
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import StatesGroup, State
@@ -8,7 +8,7 @@ from bot import bot
 from bot_menu.menu import create_kb_menu
 from data_bases.orm_basic import add_user, get_user
 #from keyboards.user_kb import create_kb_menu
-from lexicon.lexicon_ru import LEXICON_PROFILE
+from lexicon.lexicon_ru import LEXICON_PROFILE, LEXICON_MENU
 
 router: Router = Router()
 
@@ -16,7 +16,7 @@ class FSMuser_add(StatesGroup):
     name = State()
 
 
-@router.message(CommandStart())
+@router.message(CommandStart(), F.text == LEXICON_MENU['profile'])
 async def process_start_command(message: Message, state: FSMContext):
     await bot.delete_message(chat_id=message.chat.id, message_id=message.message_id)
     #Проверяем есть ли в базе, если нет то записываем
@@ -41,3 +41,4 @@ async def user_name_add(message: Message, state: FSMContext):
     #Вызываем функцию при команде /start
     await process_start_command(message)
     await state.clear()
+
