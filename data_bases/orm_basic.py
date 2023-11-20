@@ -200,10 +200,10 @@ async def get_user_stock(tg_id):
         conn = await asyncpg.connect(user=env('user'), password=env('password'), database=env('db_name'),
                                      host=env('host'))
 
-        stock_user = await conn.fetchrow(f'''SELECT d.name, ud.stock
+        stock_user = await conn.fetch(f'''SELECT d.name, ud.stock
                                             FROM deposits d
-                                            JOIN user_deposits ud ON d.id_deposit = ud.id_deposit
-                                            JOIN users u ON u.id_user = ud.id_user
+                                            LEFT JOIN user_deposits ud ON d.id_deposit = ud.id_deposit
+                                            LEFT JOIN users u ON u.id_user = ud.id_user
                                             WHERE u.tg_id = {tg_id}''')
 
         print(stock_user)
