@@ -260,13 +260,20 @@ async def get_user_miner(tg_id):
 
 
 
-        worker_user = await conn.fetch(f'''SELECT w.name, uw.sum
+        worker_user = await conn.fetch(f'''SELECT w.name, COALESCE(uw.sum, 0) AS sum
                                             FROM workers w
-                                            JOIN user_workers uw ON w.id_worker = uw.id_worker
-                                            JOIN user_deposits ud ON ud.id_deposit = uw.id_deposit
-                                            JOIN users u ON u.id_user = uw.id_user
-                                            WHERE u.tg_id = {tg_id}
-                                            AND ud.check_status = 1;''')
+                                            LEFT JOIN (SELECT id_worker, sum 
+                                                       FROM user_workers 
+                                                       WHERE id_user = (SELECT id_user FROM users WHERE tg_id = {tg_id}') 
+                                                       AND id_deposit = (SELECT id_deposit 
+                                                                        FROM user_deposits 
+                                                                        WHERE id_user = (SELECT id_user 
+                                                                                        FROM users 
+                                                                                        WHERE tg_id = {tg_id}) 
+                                                                                        AND check_status = 1)
+                                                      ) AS uw
+                                            ON w.id_worker = uw.id_worker
+                                            ORDER BY w.id_worker;''')
 
         print(worker_user)
 
