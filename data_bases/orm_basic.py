@@ -365,8 +365,8 @@ async def get_deposit_user(tg_id:int):
                                             LEFT JOIN workers w ON w.id_worker = uw.id_worker
                                             LEFT JOIN users u ON u.id_user = uw.id_user
                                             AND u.tg_id = {tg_id}
-                                            GROUP BY d.id_deposit, d.name;
-                                            ORDER BY d.id_deposit''')
+                                            GROUP BY d.id_deposit, d.name
+                                            ORDER BY d.id_deposit;''')
         return deposits
     except Exception as _ex:
         print('[INFO] Error ', _ex)
