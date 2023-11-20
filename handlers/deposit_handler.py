@@ -3,7 +3,8 @@ from aiogram.types import Message, CallbackQuery
 
 from bot import bot
 from bot_menu.menu import create_inline_kb, create_kb_menu
-from data_bases.orm_basic import get_deposit_users, choice_deposits, get_user, bay_deposit_user, get_price_deposit
+from data_bases.orm_basic import get_deposit_users, choice_deposits, get_user, bay_deposit_user, get_price_deposit, \
+    get_deposit_user
 from lexicon.lexicon_ru import LEXICON_MINES, LEXICON_MENU
 
 router: Router = Router()
@@ -17,6 +18,9 @@ router: Router = Router()
 
 async def mines(message: Message):
     await bot.delete_message(chat_id=message.chat.id, message_id=message.message_id)
+    #Получаем шахты пользователя
+    deposit_user = await get_deposit_user(message.from_user.id)
+    print(deposit_user)
     await message.answer(text="⬇️Выберите шахту⬇️", reply_markup=await create_inline_kb(1, 'ch_dp_', LEXICON_MINES['natural_gas'],
                                                                                                     LEXICON_MINES['uranium'],
                                                                                                     LEXICON_MINES['coal'],

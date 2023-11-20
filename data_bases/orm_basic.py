@@ -352,3 +352,25 @@ async def get_price_deposit(name:str):
         if conn:
             await conn.close()
             print('[INFO] PostgresSQL closed')
+
+'''Получаем все месторождения с производительность'''
+async def get_deposit_user(tg_id:int):
+    try:
+        conn = await asyncpg.connect(user=env('user'), password=env('password'), database=env('db_name'),
+                                     host=env('host'))
+
+        deposits = await conn.fetchrow(f'''SELECT d.name AS deposit_name, COALESCE(SUM(uw.sum * w.efficiency), 0) AS total_efficiency
+                                            FROM deposits d
+                                            LEFT JOIN user_workers uw ON d.id_deposit = uw.id_deposit
+                                            LEFT JOIN workers w ON w.id_worker = uw.id_worker
+                                            LEFT JOIN users u ON u.id_user = uw.id_user
+                                            AND u.tg_id = {tg_id}'
+                                            GROUP BY d.id_deposit, d.name;''')
+        return deposits
+    except Exception as _ex:
+        print('[INFO] Error ', _ex)
+
+    finally:
+        if conn:
+            await conn.close()
+            print('[INFO] PostgresSQL closed')
