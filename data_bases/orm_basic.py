@@ -215,3 +215,35 @@ async def get_user_stock(tg_id:int):
         if conn:
             await conn.close()
             print('[INFO] PostgresSQL closed')
+
+'''Улучшение склада'''
+async def up_stock_user(tg_id):
+    try:
+        conn = await asyncpg.connect(user=env('user'), password=env('password'), database=env('db_name'),
+                                     host=env('host'))
+
+        #Получаем баланс и размер склада
+        balance = await conn.fetchrow(f'SELECT balance, volume_stock'
+                                      f'FROM users '
+                                      f'WHERE tg_id = {tg_id}')
+        price_stock = (balance['volume_stock']+1000)/10
+        #Проверяем хватает ли денег на улучшение
+        if balance['balance'] > price_stock: #Если хватает
+            await conn.execute(f"UPDATE users "
+                               f"SET balance = balance - {price_stock}, volume_stock = volume_stock + 1000"
+                               f"WHERE tg_id = {tg_id}")
+            return 1
+
+        #Если не хватает
+        else:
+            return 0
+
+
+
+    except Exception as _ex:
+        print('[INFO] Error ', _ex)
+
+    finally:
+        if conn:
+            await conn.close()
+            print('[INFO] PostgresSQL closed')
