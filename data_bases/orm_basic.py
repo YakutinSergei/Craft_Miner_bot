@@ -249,3 +249,31 @@ async def up_stock_user(tg_id):
         if conn:
             await conn.close()
             print('[INFO] PostgresSQL closed')
+
+
+
+'''Получение всех рабочих в шахте'''
+async def get_user_miner(tg_id):
+    try:
+        conn = await asyncpg.connect(user=env('user'), password=env('password'), database=env('db_name'),
+                                     host=env('host'))
+
+
+
+        worker_user = await conn.fetch(f'''SELECT w.name, uw.sum
+                                            FROM workers w
+                                            JOIN user_workers uw ON w.id_worker = uw.id_worker
+                                            JOIN user_deposits ud ON ud.id_deposit = uw.id_deposit
+                                            JOIN users u ON u.id_user = uw.id_user
+                                            WHERE u.tg_id = {tg_id}
+                                            AND ud.check_status = 1;''')
+
+        print(worker_user)
+
+    except Exception as _ex:
+        print('[INFO] Error ', _ex)
+
+    finally:
+        if conn:
+            await conn.close()
+            print('[INFO] PostgresSQL closed')
