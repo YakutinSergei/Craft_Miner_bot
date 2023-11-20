@@ -340,10 +340,10 @@ async def get_price_deposit(name:str):
     try:
         conn = await asyncpg.connect(user=env('user'), password=env('password'), database=env('db_name'),
                                      host=env('host'))
-        
+
         price = await conn.fetchrow(f'''SELECT price
                                         FROM deposits 
-                                        WHERE name = {name}''')
+                                        WHERE name = '{name}';''')
         return price
     except Exception as _ex:
         print('[INFO] Error ', _ex)
