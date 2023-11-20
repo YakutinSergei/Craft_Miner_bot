@@ -264,7 +264,7 @@ async def get_user_miner(tg_id):
                                             FROM workers w
                                             LEFT JOIN (SELECT id_worker, sum 
                                                        FROM user_workers 
-                                                       WHERE id_user = (SELECT id_user FROM users WHERE tg_id = {tg_id}') 
+                                                       WHERE id_user = (SELECT id_user FROM users WHERE tg_id = {tg_id}) 
                                                        AND id_deposit = (SELECT id_deposit 
                                                                         FROM user_deposits 
                                                                         WHERE id_user = (SELECT id_user 
