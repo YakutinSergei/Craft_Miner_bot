@@ -33,7 +33,7 @@ async def create_inline_kb_deposit(width: int,
         for button in args:
             buttons.append(InlineKeyboardButton(
                 text=LEXICON_RU[button] if button in LEXICON_RU else button,
-                callback_data=pref + button.split(' ')[0]))
+                callback_data=pref + button))
 
     if kwargs:
         for button, text in kwargs.items():
