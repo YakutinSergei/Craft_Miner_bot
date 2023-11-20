@@ -31,6 +31,7 @@ async def create_inline_kb_deposit(width: int,
     # Заполняем список кнопками из аргументов args и kwargs
     if args:
         for button in args:
+            print(button)
             buttons.append(InlineKeyboardButton(
                 text=LEXICON_RU[button] if button in LEXICON_RU else button,
                 callback_data=pref + button))
