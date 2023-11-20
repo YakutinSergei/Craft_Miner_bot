@@ -15,9 +15,9 @@ async def miners_btn(message: Message):
     user_miner = await get_user_miner(message.from_user.id)
 
     workers = []
-
+    print(user_miner[0])
     for i in range(len(user_miner[0])):
-        workers.append(f"{user_miner[0]['i']['name']} - {user_miner[0][i]['sum']}")
+        workers.append(f"{user_miner[0][i]['name']} - {user_miner[0][i]['sum']}")
 
     await message.answer(text=f"Рабочие шахты: <b><i><u>{user_miner[1]['name']}</u></i></b>\n\n",
                          reply_markup= await create_inline_kb(1, f"worker_{user_miner[1]['name']}", *workers))
