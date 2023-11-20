@@ -11,4 +11,7 @@ router: Router = Router()
 @router.message((F.text == LEXICON_PROFILE['warehouse']))
 async def stock_btn(message: Message):
     stock_user = await get_user_stock(message.from_user.id)
-    await message.answer(text='')
+    text = ''
+    for i in range(len(stock_user)):
+        text += f"{stock_user[i]['name']} - {round(stock_user[i]['stock'])}\n"
+    await message.answer(text=text)
