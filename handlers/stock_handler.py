@@ -22,7 +22,7 @@ async def stock_btn(message: Message):
     #Выводим сообщение
     await message.answer(text=f"<b><i><u>📦СКЛАД📦</u></i></b>\n\n"
                               f"{text}\n"
-                              f"Заполненность склада: {round(sum_stock/stock_user[0]['volume_stock']*100)} %"
+                              f"Заполненность склада: {round(sum_stock/stock_user[0]['volume_stock']*100)} %\n"
                               f"Объем: {stock_user[0]['volume_stock']}",
                          reply_markup=await create_inline_kb(1, 'stock_up_', LEXICON_MENU['stock_up']))
 
@@ -44,7 +44,7 @@ async def process_stock_up_user(callback: CallbackQuery):
         # Выводим сообщение
         await callback.message.edit_text(text=f"<b><i><u>📦СКЛАД📦</u></i></b>\n\n"
                                   f"{text}\n"
-                                  f"Заполненность склада: {round(sum_stock/stock_user[0]['volume_stock']*100)} %"
+                                  f"Заполненность склада: {round(sum_stock/stock_user[0]['volume_stock']*100)} %\n"
                                 f"Объем: {stock_user[0]['volume_stock']}",
                              reply_markup=await create_inline_kb(1, 'stock_up_', LEXICON_MENU['stock_up']))
         await callback.answer(text='✅Склад улучшен', show_alert=True)
