@@ -195,7 +195,7 @@ async def bay_deposit_user(tg_id:int, deposit:str):
 
 
 '''Получение данных о складе'''
-async def get_user_stock(tg_id):
+async def get_user_stock(tg_id:int):
     try:
         conn = await asyncpg.connect(user=env('user'), password=env('password'), database=env('db_name'),
                                      host=env('host'))
@@ -207,8 +207,7 @@ async def get_user_stock(tg_id):
                                             WHERE u.tg_id = {tg_id} 
                                             ORDER BY d.id_deposit;''')
 
-        print(stock_user)
-
+        return stock_user
     except Exception as _ex:
         print('[INFO] Error ', _ex)
 
