@@ -202,8 +202,8 @@ async def get_user_stock(tg_id):
 
         stock_user = await conn.fetch(f'''SELECT d.name, ud.stock
                                             FROM deposits d
-                                            LEFT JOIN user_deposits ud ON d.id_deposit = ud.id_deposit
-                                            LEFT JOIN users u ON u.id_user = ud.id_user
+                                            RIGHT JOIN user_deposits ud ON d.id_deposit = ud.id_deposit
+                                            RIGHT JOIN users u ON u.id_user = ud.id_user
                                             WHERE u.tg_id = {tg_id}''')
 
         print(stock_user)
