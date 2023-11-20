@@ -359,7 +359,7 @@ async def get_deposit_user(tg_id:int):
         conn = await asyncpg.connect(user=env('user'), password=env('password'), database=env('db_name'),
                                      host=env('host'))
 
-        deposits = await conn.fetchrow(f'''SELECT d.name AS deposit_name, COALESCE(SUM(uw.sum * w.efficiency), 0) AS total_efficiency
+        deposits = await conn.fetch(f'''SELECT d.name AS deposit_name, COALESCE(SUM(uw.sum * w.efficiency), 0) AS total_efficiency
                                             FROM deposits d
                                             LEFT JOIN user_workers uw ON d.id_deposit = uw.id_deposit
                                             LEFT JOIN workers w ON w.id_worker = uw.id_worker
