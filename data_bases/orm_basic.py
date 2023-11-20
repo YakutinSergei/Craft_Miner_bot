@@ -275,8 +275,13 @@ async def get_user_miner(tg_id):
                                             ON w.id_worker = uw.id_worker
                                             ORDER BY w.id_worker;''')
 
-        print(worker_user)
+        name_deposits = await conn.fetchrow(f'''SELECT d.name 
+                                                FROM deposits d
+                                                JOIN user_deposits ud ON d.id_deposit = ud.id_deposit
+                                                JOIN users u ON u.id_user = ud.id_user
+                                                WHERE u.tg_id = {tg_id} AND ud.check_status = 1;''')
 
+        return worker_user, name_deposits
     except Exception as _ex:
         print('[INFO] Error ', _ex)
 
