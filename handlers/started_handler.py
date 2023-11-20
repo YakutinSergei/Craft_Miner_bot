@@ -16,7 +16,7 @@ class FSMuser_add(StatesGroup):
     name = State()
 
 
-@router.message((CommandStart()) | (F.text == LEXICON_MENU['profile']))
+@router.message((F.text == '/start') | (F.text == LEXICON_MENU['profile']))
 async def process_start_command(message: Message, state: FSMContext):
     await bot.delete_message(chat_id=message.chat.id, message_id=message.message_id)
     #Проверяем есть ли в базе, если нет то записываем
