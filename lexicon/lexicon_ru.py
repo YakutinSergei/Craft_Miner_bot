@@ -28,6 +28,7 @@ LEXICON_MENU: dict[str, str] = {
     'profile' : '⚙️Профиль',
     'shop' : '💰Магазин',
     'back' : '🔙Назад',
+    'stock_up' : '💲Улучшить',
 }
 
 
