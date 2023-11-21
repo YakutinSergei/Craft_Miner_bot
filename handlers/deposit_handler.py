@@ -34,7 +34,6 @@ async def process_choice_deposits(callback: CallbackQuery):
     deposit = callback.data.split('_')[-1]
     #Получаем все имена наших шахт
     deposit_users = await get_deposit_users(callback.from_user.id)
-    print(deposit)
     #Ставить флажок на наличие шахты
     check_dep = 0
 
