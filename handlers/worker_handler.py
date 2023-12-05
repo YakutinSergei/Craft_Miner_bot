@@ -8,7 +8,7 @@ from lexicon.lexicon_ru import LEXICON_MENU
 router: Router = Router()
 
 
-'''Действие по нажатию кнопки СКЛАД'''
+'''Действие по нажатию кнопки Шахтеры'''
 @router.message((F.text == LEXICON_MENU['miners']))
 async def miners_btn(message: Message):
     #Получаем всех рабочих и название шахты

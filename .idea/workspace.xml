@@ -4,11 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="25144d89-559e-4bbf-9f4e-ba791090f5fe" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/handlers/deposit_handler.py" beforeDir="false" afterPath="$PROJECT_DIR$/handlers/deposit_handler.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/handlers/worker_handler.py" beforeDir="false" afterPath="$PROJECT_DIR$/handlers/worker_handler.py" afterDir="false" />
-    </list>
+    <list default="true" id="25144d89-559e-4bbf-9f4e-ba791090f5fe" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -37,7 +33,7 @@
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/yakyt/Documents/GitHub/Craft_Miner_bot&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Sergey/Documents/GitHub/Craft_Miner_bot&quot;,
     &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;
   }
 }</component>
